@@ -1,0 +1,51 @@
+burst_time = []     #burst_time stands for burst time
+print("Enter the number of process: ")
+n = int(input())
+
+processes = []
+
+#loop for process inserting...
+for i in range(0,n):
+ processes.insert(i,i+1)
+
+#input for burtst time...
+print("Enter the burst time of the processes: \n")
+burst_time=list(map(int, raw_input().split()))
+
+#applying bubble sort to sort process according to their burst time...
+for i in range(0,len(burst_time)-1):  
+ for j in range(0,len(burst_time)-i-1):
+  if(burst_time[j] > burst_time[j+1]):
+   temp = burst_time[j]
+   burst_time[j] = burst_time[j+1]
+   burst_time[j+1] = temp
+   temp = processes[j]
+   processes[j] = processes[j+1]
+   processes[j+1] = temp
+
+waiting_time = []    
+average_waiting_time = 0  
+turnaround_time = []    
+average_turnaround_time = 0   
+waiting_time.insert(0,0)
+turnaround_time.insert(0,burst_time[0])
+
+#calculations for Waiting time and turnaround time
+for i in range(1,len(burst_time)):  
+ waiting_time.insert(i,waiting_time[i-1] + burst_time[i-1])
+ turnaround_time.insert(i,waiting_time[i] + burst_time[i])
+ average_waiting_time += waiting_time[i]
+ average_turnaround_time += turnaround_time[i]
+
+average_waiting_time=float(average_waiting_time)/n
+average_turnaround_time=float(average_turnaround_time)/n
+print("\n")
+print("Process\t  Burst Time\t  Waiting Time\t  Turn Around Time")
+
+#showing table on screen
+for i in range(0,n):
+ print(str(processes[i]) + "\t\t" + str(burst_time[i]) + "\t\t" + str(waiting_time[i]) + "\t\t" + str(turnaround_time[i]))
+ print("\n")
+
+print("Average Waiting time is: " + str(average_waiting_time))
+print("Average Turn Arount Time is: " + str(average_turnaround_time))
